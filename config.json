@@ -1,0 +1,10 @@
+{
+    "_comment": "This is the configuration for the epinotes api version",
+    "port": 8080,
+    "DDB": {
+        "host": "localhost",
+        "username": "username",
+        "password": "password",
+        "database": "ddb"
+    }
+}

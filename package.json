@@ -1,0 +1,23 @@
+{
+  "name": "epinotesapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.cri.epita.fr:adrien.pingard/epinotesapi.git"
+  },
+  "keywords": [
+    "epinotes",
+    "api"
+  ],
+  "author": "thomas.peugnet adrien.pingard",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.15"
+  }
+}
