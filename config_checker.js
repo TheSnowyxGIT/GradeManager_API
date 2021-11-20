@@ -10,6 +10,8 @@ const objects = {
     "DDB.username": check_basic_string,
     "DDB.password": check_basic_string,
     "DDB.database": check_basic_string,
+    "CRI.CSRF_TOKEN": check_basic_string,
+    "CRI.AUTHORIZATION": check_basic_string,
 }
 
 
