@@ -2,6 +2,49 @@ const axios = require("axios").default;
 
 const config = require("../../config.json"); // load the config
 
+const {error} = require("../sender/sender")
+
+function find_campus_in_string(str) {
+    if (typeof str != "string") {
+        return "none";
+    }
+    str = str.toLowerCase();
+    const campus = {
+        tls: ["tls", "toulouse"],
+        prs: ["prs", "paris"],
+        lyn: ["lyn", "lyon"],
+        rns: ["rns", "rennes"],
+        stg: ["stg", "strasbourg"]
+    }
+    let find_campus = "none";
+    Object.keys(campus).forEach(key => {
+        if (find_campus !== "none") { return; }
+        const array = campus[key];
+        array.forEach(prefix => {
+            if (str.includes(prefix)) {
+                find_campus = key;
+            }
+        })
+    });
+    return find_campus;
+}
+
+function find_semester_in_string(str) {
+    if (typeof str != "string") {
+        return "none";
+    }
+    str = str.toLowerCase();
+    let semester_find = "none";
+    for (let i = 0; i <= 10; i++) {
+        const prefix = `-s${i}-`;
+        if (str.includes(prefix)) {
+            semester_find = "s" + i;
+            break;
+        }
+    }
+    return semester_find;
+}
+
 /**
  * Get the cri epita userinfo
  * The data from cri epita will be arranged
@@ -12,7 +55,7 @@ module.exports.get_userinfo = (mail, callback) => {
         headers: {
             "accept": "application/json",
             "X-CSRFToken": `${config.CRI.CSRF_TOKEN}`,
-            "authorization": `Basic ${config.CRI.AUTHORIZATION}`
+            "authorization": `Basic bHVrYXMuZGVyb256aWVyOlNheG9waG9uZTE=`
         }
     };
     axios.get(cri_url, cri_config).then(result_cri => {

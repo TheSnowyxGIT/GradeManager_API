@@ -9,6 +9,10 @@
     },
     "CRI": {
         "CSRF_TOKEN": "cQPIhlsgb69f3KSjKTrn62nHUWEIEPBk6lRRSmmCvUnyo6fVmGFN1vDpB1dLotOZ",
-        "AUTHORIZATION": "bHVrYXMuZGVyb256aWVyOlNheG9waG9uZTE"
+        "AUTHORIZATION": "bHVrYXMuZGVyb256aWVyOlNheG9waG9uZTE="
+    },
+    "SSL":{
+        "fullchain": "/etc/letsencrypt/live/nyte.fr/fullchain.pem",
+        "privkey": "/etc/letsencrypt/live/nyte.fr/privkey.pem"
     }
 }

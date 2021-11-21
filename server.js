@@ -1,4 +1,5 @@
-const http = require("http"); // Need to be updated to https...
+const https = require("https");
+const fs = require('fs');
 
 /**
  * Load the "./config" that contains all basics informations
@@ -7,13 +8,19 @@ const http = require("http"); // Need to be updated to https...
 const config = require("./config.json");
 require("./config_checker")(); // Check the config
 
-
+/**
+ * Get ssl certificate for the https
+ */
+const options = {
+    key: fs.readFileSync(config.SSL.privkey),
+    cert: fs.readFileSync(config.SSL.fullchain)
+};
 
 /**
  * Create the server with the script that will holder all requests
  */
 const app = require("./requests.js"); // Object that will hold requests
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 
 /**
  * Launch the server on the port "config.port"

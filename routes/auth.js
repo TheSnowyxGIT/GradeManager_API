@@ -48,14 +48,7 @@ router.get("/token", (req, res) => {
 
             success.send(res, {
                 message: "success to get the token but without token car pas implementé encore mdr",
-                data: {
-                    name: name,
-                    mail: email,
-                    login: login,
-                    status: status,
-                    semester: semester,
-                    campus: campus
-                }
+                access_token: "no for now"
             })
         })
     })

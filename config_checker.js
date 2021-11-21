@@ -12,6 +12,8 @@ const objects = {
     "DDB.database": check_basic_string,
     "CRI.CSRF_TOKEN": check_basic_string,
     "CRI.AUTHORIZATION": check_basic_string,
+    "SSL.privkey": check_basic_string,
+    "SSL.fullchain": check_basic_string,
 }
 
 
