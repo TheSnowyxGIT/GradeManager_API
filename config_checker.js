@@ -14,6 +14,9 @@ const objects = {
     "CRI.AUTHORIZATION": check_basic_string,
     "SSL.privkey": check_basic_string,
     "SSL.fullchain": check_basic_string,
+    "JWT.secret": check_basic_string,
+    "JWT.lifetime": check_basic_string,
+    "JWT.expire": check_basic_boolean
 }
 
 
@@ -68,5 +71,16 @@ function check_basic_string(key, elt)
         throw new Error(`config error: ${key} is incorrect`);
     }
 }
+
+/**
+ * Check the basic boolean
+ */
+ function check_basic_boolean(key, elt)
+ {
+     if (typeof elt !== "boolean")
+     {
+         throw new Error(`config error: ${key} is incorrect`);
+     }
+ }
 
 module.exports = check_config;

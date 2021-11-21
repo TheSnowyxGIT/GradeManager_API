@@ -8,7 +8,7 @@ const syntax = require("../middleware/syntax"); // verificateur de variables
 const microsoft_api = require("../middleware/other_api/microsoft");
 const cri_api = require("../middleware/other_api/cri_epita");
 const { error, success } = require("../middleware/sender/sender");
-const { send } = require("../middleware/sender/success");
+const jwt_middleware = require("../middleware/jwt");
 
 /**
  * Renvoie un token d'acces pour l'api
@@ -45,10 +45,12 @@ router.get("/token", (req, res) => {
             const status = user_data.status;
             const semester = user_data.semester;
             const campus = user_data.campus;
+            // TODO do something with all this data (register / update DDB ...)
 
+            const access_token = jwt_middleware.generateAccessToken({ mail: mail });
             success.send(res, {
                 message: "success to get the token but without token car pas implementé encore mdr",
-                access_token: "no for now"
+                access_token: access_token
             })
         })
     })

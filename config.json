@@ -14,5 +14,10 @@
     "SSL":{
         "fullchain": "/etc/letsencrypt/live/nyte.fr/fullchain.pem",
         "privkey": "/etc/letsencrypt/live/nyte.fr/privkey.pem"
+    },
+    "JWT": {
+        "secret": "645fdq64gqze894gz4xdze454f5ez4xrt5412gz56e",
+        "expire": false,
+        "lifetime": "2h"
     }
 }
