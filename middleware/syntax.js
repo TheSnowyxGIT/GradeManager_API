@@ -10,6 +10,10 @@ module.exports.notempty_string = (value) => {
     return typeof value === "string" && value !== "";
 }
 
+module.exports.positive_number = (value) => {
+    return typeof value === "number" && value >= 0;
+}
+
 module.exports.rank = (rank) => {
     return !(typeof rank != "string" || rank === "" || !rank.match("^[a-zA-Z]([a-zA-Z]+)?$"))
 }
@@ -32,11 +36,11 @@ module.exports.grade_type = (grade_name) => {
 
 
 module.exports.module_name = (module_name) => {
-    return typeof module_name == "string" && (module_name.match("^[a-zA-Z-]+$") || module_name == "none");
+    return typeof module_name == "string" && (module_name.match("^[a-z-_]+$") || module_name == "");
 }
 
 module.exports.semester = (semester) => {
-    return typeof semester == "string" && (semester.match("^[s][0-9][0-9]?$") || semester == "none");
+    return typeof semester == "string" && (semester.match("^[s][0-9][0-9]?$") || semester == "");
 }
 
 module.exports.id = (id) => {
@@ -48,7 +52,7 @@ module.exports.name = (name) => {
 }
 
 module.exports.status = (status) => {
-    return typeof status == "string" && (status == "teachers" || status == "students" || status == "none");
+    return typeof status == "string" && (status == "teachers" || status == "students" || status == "");
 }
 
 module.exports.login = (login) => {

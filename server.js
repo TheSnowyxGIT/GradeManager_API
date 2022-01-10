@@ -22,6 +22,15 @@ const options = {
 const app = require("./requests.js"); // Object that will hold requests
 const server = https.createServer(options, app);
 
+
+/**
+ * Interval to get the sql connection on
+ */
+const ddb_other = require("./middleware/DDB/other");
+setInterval(() => {
+    ddb_other.ping();
+}, 1000 *60 * 30)
+
 /**
  * Launch the server on the port "config.port"
  */

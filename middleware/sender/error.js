@@ -16,9 +16,16 @@ module.exports.types = {
     UserNotHaveRank: { type: "UserNotHaveRank", code: 403 },
 
     GradeAlreadyExists: { type: "GradeAlreadyExists", code: 403 },
+    GradeNotExists: { type: "GradeAlreadyExists", code: 403 },
 
     SubjectAlreadyExists: { type: "SubjectAlreadyExists", code: 403 },
     SubjectNotExists: { type: "SubjectNotExists", code: 403 },
+
+    ControlTypeAlreadyExists: { type: "ControlTypeAlreadyExists", code: 403 },
+    ControlTypeNotExists: { type: "ControlTypeNotExists", code: 403 },
+
+    ControlAlreadyExists: { type: "ControlAlreadyExists", code: 403 },
+    ControlNotExists: { type: "ControlNotExists", code: 403 },
 
     MysqlError: { type: "MysqlError", code: 500 },
     PermissionSyntax: { type: "PermissionSyntax", code: 403 },
@@ -30,6 +37,8 @@ module.exports.types = {
     PathExists: { type: "PathExists", code: 403 },
     PathNotExists: { type: "PathNotExists", code: 403 },
     FSError: { type: "FSError", code: 500 },
+
+    UserNotHaveSemester: { type: "UserNotHaveSemester", code: 403 },
 
     Drive_Unauthorized: { type: "Drive_Unauthorized", code: 401 }
 }

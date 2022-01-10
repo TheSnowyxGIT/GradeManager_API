@@ -3,9 +3,9 @@
     "port": 8080,
     "DDB": {
         "host": "localhost",
-        "username": "username",
-        "password": "password",
-        "database": "ddb"
+        "username": "epinotesAPI",
+        "password": "prevennyte",
+        "database": "epinotesApi"
     },
     "CRI": {
         "CSRF_TOKEN": "cQPIhlsgb69f3KSjKTrn62nHUWEIEPBk6lRRSmmCvUnyo6fVmGFN1vDpB1dLotOZ",

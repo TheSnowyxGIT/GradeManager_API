@@ -9,6 +9,48 @@ const microsoft_api = require("../middleware/other_api/microsoft");
 const cri_api = require("../middleware/other_api/cri_epita");
 const { error, success } = require("../middleware/sender/sender");
 const jwt_middleware = require("../middleware/jwt");
+const ddb_users = require("../middleware/DDB/users");
+
+/**
+ * Create / Update the user to the database
+ * Return the id of the user
+ */
+function save_user(mail, data, callback) {
+    ddb_users.get_id_from_email(mail, (err, id) => {
+        if (!err) {
+            // Ancien sur epinotes
+            ddb_users.updateEpinotesAccount(id, data, err => {
+                if (!err) {
+                    callback(undefined, id);
+                } else {
+                    callback(err);
+                }
+            })
+        } else {
+            if (err.error.type === error.types.UnknownUser.type) {
+                // Nouveau sur epinotes
+                ddb_users.createEpinotesAccount(data, err => {
+                    if (!err) {
+                        // utilisateur créé
+                        // Get the epinotes ID
+                        ddb_users.get_id_from_email(mail, (err, id) => {
+                            if (!err) {
+                                callback(undefined, id);
+                            } else {
+                                callback(err);
+                            }
+                        });
+                    } else {
+                        callback(err);
+                    }
+                })
+            } else {
+                callback(err);
+            }
+        }
+    });
+}
+
 
 /**
  * Renvoie un token d'acces pour l'api
@@ -45,12 +87,32 @@ router.get("/token", (req, res) => {
             const status = user_data.status;
             const semester = user_data.semester;
             const campus = user_data.campus;
-            // TODO do something with all this data (register / update DDB ...)
+            
+            // @param data Information about the user.
+            // @param data.name The name of the user.
+            // @param data.email The email of the user.
+            // @param data.login The login of the user.
+            // @param data.status The status of the user.
+            // @param data.semester The semester of the user.
+            // @param data.campus The campus of the user.
 
-            const access_token = jwt_middleware.generateAccessToken({ mail: mail });
-            success.send(res, {
-                message: "success to get the token but without token car pas implementé encore mdr",
-                access_token: access_token
+            const data = {
+                name: name,
+                email: mail,
+                login: login,
+                status: status,
+                semester: semester,
+                campus: campus,
+            }
+
+            save_user(mail, data, (err, id) => {
+                if (err) {
+                    return error.send_err(res, err);
+                }
+                const access_token = jwt_middleware.generateAccessToken({ id: id });
+                success.send(res, {
+                    access_token: access_token
+                })
             })
         })
     })

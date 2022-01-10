@@ -6,7 +6,7 @@ const {error} = require("../sender/sender")
 
 function find_campus_in_string(str) {
     if (typeof str != "string") {
-        return "none";
+        return "";
     }
     str = str.toLowerCase();
     const campus = {
@@ -16,9 +16,9 @@ function find_campus_in_string(str) {
         rns: ["rns", "rennes"],
         stg: ["stg", "strasbourg"]
     }
-    let find_campus = "none";
+    let find_campus = "";
     Object.keys(campus).forEach(key => {
-        if (find_campus !== "none") { return; }
+        if (find_campus !== "") { return; }
         const array = campus[key];
         array.forEach(prefix => {
             if (str.includes(prefix)) {
@@ -31,10 +31,10 @@ function find_campus_in_string(str) {
 
 function find_semester_in_string(str) {
     if (typeof str != "string") {
-        return "none";
+        return "";
     }
     str = str.toLowerCase();
-    let semester_find = "none";
+    let semester_find = "";
     for (let i = 0; i <= 10; i++) {
         const prefix = `-s${i}-`;
         if (str.includes(prefix)) {
@@ -72,8 +72,8 @@ module.exports.get_userinfo = (mail, callback) => {
         groups = groups.sort((a, b) => (new Date(a.end_at) < new Date(b.end_at)) ? 1 : -1).map(obj => obj.group);
         let campus_list = groups;
         campus_list = campus_list.map(obj => find_campus_in_string(obj.slug));
-        campus_list = campus_list.filter(str => str != "none");
-        let campus = "none"; // user campus
+        campus_list = campus_list.filter(str => str != "");
+        let campus = ""; // user campus
         if (campus_list.length > 0) {
             campus = campus_list[0];
         }
@@ -81,15 +81,29 @@ module.exports.get_userinfo = (mail, callback) => {
         // Get the semester from data
         let semester_list = groups;
         semester_list = semester_list.map(obj => find_semester_in_string(obj.slug));
-        semester_list = semester_list.filter(str => str != "none");
-        let semester = "none"; // user semester
+        semester_list = semester_list.filter(str => str != "");
+        let semester = ""; // user semester
         if (semester_list.length > 0) {
             semester = semester_list[0];
         }
 
+
+        /**
+         * HARDCODE 
+         */
+        if (mail == "thomas.peugnet@epita.fr")
+        {
+            semester = "s5";
+        }
+        if (mail == "adrien.pingard@epita.fr")
+        {
+            semester = "s5";
+        }
+        
+
         const data = {
             login: user.login,
-            status: user.primary_group.slug,
+            status: user.primary_group.slug || "",
             campus: campus,
             semester: semester
         }
