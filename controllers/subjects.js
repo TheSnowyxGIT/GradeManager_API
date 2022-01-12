@@ -27,6 +27,7 @@ module.exports.get_subjects_with_filters = (module_id, callback) => {
     }
 } 
 
+/*
 module.exports.add_subject = (name, module_id, display_name, coef, callback) => {
     ddb_subject.add_subject(name, module_id, display_name, coef, err => {
         if (err) {
@@ -46,3 +47,4 @@ module.exports.remove_subject = (name, module_id, callback) => {
     })
 
 }
+*/

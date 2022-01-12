@@ -213,3 +213,71 @@ module.exports.updateEpinotesAccount = function (id, data, callback) {
     });
 
 }
+
+
+/**
+ * Ajoute la liste de groups a l'utilisateur
+ * 
+*/
+module.exports.set_groups = function (login, groups) {
+
+    if (!login || !groups) {
+        error.throw("set_groups: missing values");
+    }
+    if (!syntax.login(login)) {
+        error.throw("set_groups: login incorrect");
+    }
+    if (!syntax.array(syntax.notempty_string, groups)) {
+        error.throw("set_groups: groups incorrect");
+    }
+
+    groups.forEach(group => {
+        pool.getConnection((err, conn) => {
+            if (err) {
+                return;
+            }
+            conn.execute(
+                `CALL set_group(?, ?)`,
+                [login, group],
+                err => {
+                    conn.release();
+                }
+            );
+        });
+    })
+}
+
+/**
+ * recupere la liste des groups de l'utilisateur
+ * 
+*/
+module.exports.get_groups = function (user_id, callback) {
+
+    if (!user_id) {
+        error.throw("get_groups: missing values");
+    }
+    if (!syntax.id(user_id)) {
+        error.throw("get_groups: user_id incorrect");
+    }
+
+    pool.getConnection((err, conn) => {
+        if (err) {
+            return;
+        }
+        conn.execute(
+            `SELECT code FROM users_groups WHERE user_id = ?`,
+            [user_id],
+            (err, results) => {
+
+                conn.release();
+
+                if (!err) {
+                    return callback(undefined, results.map(obj => obj.code));
+                } else {
+                    return callback(error.get(error.types.MysqlError, { error: err }));
+                }
+            }
+        );
+    });
+
+}

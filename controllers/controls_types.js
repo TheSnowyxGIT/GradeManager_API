@@ -28,7 +28,7 @@ module.exports.get_controls_types_with_filters = (subject_id, callback) => {
     }
 } 
 
-
+/*
 module.exports.add_control_type = (subject_id, name, display_name, coef, callback) => {
     ddb_subjects.subject_exists_by_id(subject_id, (err, subject_exists) => {
         if (err) {
@@ -58,3 +58,4 @@ module.exports.remove_control_type = (subject_id, name, callback) => {
     })
 
 }
+*/

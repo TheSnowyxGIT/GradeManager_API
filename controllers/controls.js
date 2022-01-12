@@ -35,7 +35,7 @@ module.exports.control_exists = (control_id, callback) => {
     })
 
 }
-
+/*
 module.exports.add_control = (control_type_id, name, display_name, coef, callback) => {
     ddb_controls.add_control(control_type_id, name, display_name, coef, err => {
         if (err) {
@@ -55,3 +55,4 @@ module.exports.remove_control = (control_type_id, name, callback) => {
     })
 
 }
+*/

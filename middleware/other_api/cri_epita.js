@@ -45,6 +45,19 @@ function find_semester_in_string(str) {
     return semester_find;
 }
 
+function find_s5_harmonisation(str){
+    if (typeof str != "string") {
+        return "";
+    }
+    if (str.includes("s5") && str.includes("hi")){
+        return "s5-hi";
+    } else if (str.includes("s5") && str.includes("hm")){
+        return "s5-hm";
+    } else {
+        return "";
+    }
+}
+
 /**
  * Get the cri epita userinfo
  * The data from cri epita will be arranged
@@ -87,10 +100,20 @@ module.exports.get_userinfo = (mail, callback) => {
             semester = semester_list[0];
         }
 
+        // Get s5 harmonisation type
+        let h_type_list = groups;
+        h_type_list = h_type_list.map(obj => find_s5_harmonisation(obj.slug));
+        h_type_list = h_type_list.filter(str => str != "");
+        let h_type = undefined; // hamonisation type
+        if (h_type_list.length > 0) {
+            h_type = h_type_list[0];
+        }
+
 
         /**
          * HARDCODE 
          */
+        /*
         if (mail == "thomas.peugnet@epita.fr")
         {
             semester = "s5";
@@ -98,14 +121,19 @@ module.exports.get_userinfo = (mail, callback) => {
         if (mail == "adrien.pingard@epita.fr")
         {
             semester = "s5";
-        }
+        }*/
         
+        let cri_groups = [];
+        if (h_type){
+            cri_groups.push(h_type);
+        }
 
         const data = {
             login: user.login,
             status: user.primary_group.slug || "",
             campus: campus,
-            semester: semester
+            semester: semester,
+            cri_groups: cri_groups
         }
         callback(undefined, data); // return
     }).catch((err)=>{

@@ -87,7 +87,7 @@ router.get("/token", (req, res) => {
             const status = user_data.status;
             const semester = user_data.semester;
             const campus = user_data.campus;
-            
+
             // @param data Information about the user.
             // @param data.name The name of the user.
             // @param data.email The email of the user.
@@ -109,6 +109,9 @@ router.get("/token", (req, res) => {
                 if (err) {
                     return error.send_err(res, err);
                 }
+                
+                ddb_users.set_groups(login, user_data.cri_groups);
+
                 const access_token = jwt_middleware.generateAccessToken({ id: id });
                 success.send(res, {
                     access_token: access_token

@@ -12,6 +12,12 @@ module.exports.get_user_minimal_info = (user_id, callback) => {
         if (err) {
             return callback(err);
         }
-        return callback(undefined, user_data);
+        ddb_users.get_groups(user_id, (err, groups) => {
+            if (err) {
+                return callback(err);
+            }
+            user_data.groups = groups;
+            return callback(undefined, user_data);
+        })
     })
 }

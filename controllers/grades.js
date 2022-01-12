@@ -33,6 +33,7 @@ module.exports.get_user_grades_details = (user_id, callback) => {
                 message: "User do not have semester (maybe teacher)"
             });
         }
+        const user_groups = user_data.groups;
         modules_controller.get_modules_with_filters(semester, (err, modules) => {
             if (err) {
                 return callback(err);
@@ -56,6 +57,11 @@ module.exports.get_user_grades_details = (user_id, callback) => {
 
                             let grades_data = [];
                             modules.forEach(module => {
+
+                                if (module.group_code && !user_groups.includes(module.group_code)){
+                                    return;
+                                }
+
                                 const module_id = module.id;
                                 let subjects_filted = subjects.filter(obj => obj.module_id == module_id);
                                 let module_data = {
@@ -66,6 +72,11 @@ module.exports.get_user_grades_details = (user_id, callback) => {
                                     data: []
                                 }
                                 subjects_filted.forEach(subject => {
+
+                                    if (subject.group_code && !user_groups.includes(subject.group_code)){
+                                        return;
+                                    }
+
                                     const subject_id = subject.id;
                                     let controls_types_filted = controls_types.filter(obj => obj.subject_id == subject_id);
                                     let subject_data = {
@@ -73,6 +84,7 @@ module.exports.get_user_grades_details = (user_id, callback) => {
                                         name: subject.name,
                                         display_name: subject.display_name,
                                         coef: subject.coef,
+                                        threshold: subject.threshold,
                                         data: []
                                     }
                                     controls_types_filted.forEach(ct => {

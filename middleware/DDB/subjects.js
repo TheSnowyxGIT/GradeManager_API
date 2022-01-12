@@ -11,7 +11,7 @@ module.exports.get_subjects = function (callback) {
             return callback(error.get(error.types.MysqlError, { error: err }));
         }
         conn.execute(
-            `SELECT * FROM \`subjects\``,
+            `SELECT * FROM \`subjects\` ORDER BY display_name`,
             (err, res) => {
 
                 conn.release();
@@ -34,7 +34,7 @@ module.exports.get_subjects_by_module = function (module_id, callback) {
             return callback(error.get(error.types.MysqlError, { error: err }));
         }
         conn.execute(
-            `SELECT * FROM \`subjects\` WHERE \`module_id\` = ?`,
+            `SELECT * FROM \`subjects\` WHERE \`module_id\` = ? ORDER BY display_name`,
             [module_id],
             (err, res) => {
 
@@ -59,7 +59,7 @@ module.exports.get_subject_by_id = function (subject_id, callback) {
             return callback(error.get(error.types.MysqlError, { error: err }));
         }
         conn.execute(
-            `SELECT * FROM \`subjects\` WHERE \`id\` = ?`,
+            `SELECT * FROM \`subjects\` WHERE \`id\` = ? ORDER BY display_name`,
             [subject_id],
             (err, res) => {
 
