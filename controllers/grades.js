@@ -190,3 +190,15 @@ module.exports.remove_grade = (user_id, control_id, callback) => {
     })
 
 }
+
+/* RANKING */
+module.exports.get_semester_ranking = (semester, callback) => {
+    // we suppose params correct.
+    ddb_grades.get_semester_ranking(semester, (err, ranking) => {
+        if (err) {
+            return callback(err);
+        }
+        return callback(undefined, ranking)
+    })
+
+}

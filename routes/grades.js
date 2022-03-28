@@ -131,5 +131,28 @@ router.delete("/delete_by_subject", jwt_middleware.check_token, (req, res) => {
     success.send(res, {message: "The request to delete have been received, but no garanty of the result"});
 })
 
+router.get("/semester_ranking", jwt_middleware.check_token, (req, res) => {
+
+    if (typeof req.query.semester == "undefined"){
+        return error.send(res, error.types.RequestInvalid, {
+            message: 'The semester is missing in the query',
+            key: "semester"
+        })
+    }
+    const semester = req.query.semester;
+    if (!syntax.semester(semester)){
+        return error.send(res, error.types.RequestInvalid, {
+            message: 'The semester do not respect the semester syntax',
+            key: "semester"
+        })
+    }
+
+    grades_controller.get_semester_ranking(semester, (err, ranking) => {
+        if (err){
+            return error.send_err(res, err);
+        }
+        success.send(res, ranking);
+    })
+})
 
 module.exports = router;

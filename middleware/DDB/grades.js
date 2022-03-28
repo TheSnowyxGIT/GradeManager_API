@@ -179,3 +179,27 @@ module.exports.delete_grade = function (user_id, control_id, callback) {
             });
         });
 }
+
+module.exports.get_semester_ranking = function (semester, callback) {
+    if (!syntax.semester(semester)) {
+        error.throw("get_semester_ranking: semester incorrect");
+    }
+    pool.getConnection((err, conn) => {
+        if (err) {
+            return callback(error.get(error.types.mysqlerror, { error: err }));
+        }
+        conn.execute(
+            `CALL get_semester_ranking(?)`,
+            [semester],
+            (err, res) => {
+
+                conn.release();
+
+                if (!err) {
+                    return callback(undefined, res[0]);
+                } else {
+                    return callback(error.get(error.types.MysqlError, { error: err }));
+                }
+            });
+    });
+}
